@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2024 at 06:00 PM
+-- Generation Time: May 17, 2024 at 11:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -92,11 +92,19 @@ INSERT INTO `items` (`items_id`, `items_name`, `items_desc`, `items_image`, `ite
 CREATE TABLE `orderr` (
   `notif_id` int(11) NOT NULL,
   `notif_item` int(11) NOT NULL,
+  `item_owner` int(11) NOT NULL,
   `notif_status` tinyint(4) NOT NULL,
   `notif_orderby` int(11) NOT NULL,
   `notif_detials` varchar(255) NOT NULL,
   `notif_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orderr`
+--
+
+INSERT INTO `orderr` (`notif_id`, `notif_item`, `item_owner`, `notif_status`, `notif_orderby`, `notif_detials`, `notif_date`) VALUES
+(21, 26, 35, 1, 26, 'asdasd', '2024-05-17 21:57:24');
 
 -- --------------------------------------------------------
 
@@ -121,11 +129,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_type`, `user_name`, `user_phone`, `user_password`, `user_email`, `user_verifycode`, `user_approve`, `user_create`) VALUES
-(26, 0, 'arwa', '211212', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'test@gmail.com', 48051, 1, '2023-07-26 23:45:46'),
+(26, 2, 'arwa', '211212', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'test@gmail.com', 69826, 2, '2023-07-26 23:45:46'),
 (27, 3, 'admin@gmail.com', '73737', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'admin@gmail.com', 70577, 2, '2023-07-28 00:35:06'),
 (33, 1, 'daaddsd', '123456', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'nawafmesa@gmail.com', 48970, 1, '2024-03-28 23:05:52'),
 (34, 1, 'Haneen Mohammed', '0555555555', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'haneenmohammed@gmail.com', 211221, 1, '2024-05-11 15:27:24'),
-(35, 1, 'Aisha Mahdi', '0554555455', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'aishamahdi@gmail.com', 2121, 1, '2024-05-11 15:30:04');
+(35, 1, 'Aisha Mahdi', '0554555455', '7c4a8d09ca3762af61e59520943dc26494f8941b', 'aishamahdi@gmail.com', 12106, 2, '2024-05-11 15:30:04');
 
 --
 -- Indexes for dumped tables
@@ -151,7 +159,8 @@ ALTER TABLE `items`
 ALTER TABLE `orderr`
   ADD PRIMARY KEY (`notif_id`),
   ADD KEY `notifFG2` (`notif_orderby`),
-  ADD KEY `notifFG1` (`notif_item`);
+  ADD KEY `notifFG1` (`notif_item`),
+  ADD KEY `item_fg` (`item_owner`);
 
 --
 -- Indexes for table `users`
@@ -179,7 +188,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `orderr`
 --
 ALTER TABLE `orderr`
-  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -202,6 +211,7 @@ ALTER TABLE `items`
 -- Constraints for table `orderr`
 --
 ALTER TABLE `orderr`
+  ADD CONSTRAINT `item_fg` FOREIGN KEY (`item_owner`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `notifFG1` FOREIGN KEY (`notif_item`) REFERENCES `items` (`items_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `notifFG2` FOREIGN KEY (`notif_orderby`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

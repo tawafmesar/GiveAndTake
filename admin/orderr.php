@@ -32,10 +32,29 @@ if (isset($_SESSION['userses'])) {
 
     // select all users exept Admin
 
-$stmt = $con->prepare("SELECT items.*, users.user_id, users.user_name, users.user_phone, users.user_email
-FROM items
-INNER JOIN users ON items.items_owner = users.user_id
-INNER JOIN categories ON items.items_cat = categories.categories_id");
+$stmt = $con->prepare("SELECT
+n.notif_id,
+n.notif_item,
+n.item_owner,
+n.notif_status,
+n.notif_orderby,
+n.notif_detials,
+n.notif_date,
+i.items_name,
+i.items_image,
+
+u_owner.user_name AS owner_name,
+u_owner.user_phone AS owner_phone,
+
+u_orderby.user_name AS orderby_name,
+u_orderby.user_phone AS orderby_phone
+FROM
+
+orderr n
+JOIN items i ON n.notif_item = i.items_id
+JOIN users u_owner ON i.items_owner = u_owner.user_id
+JOIN users u_orderby ON n.notif_orderby = u_orderby.user_id
+");
 
     // execute the statement
 
@@ -56,7 +75,7 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
       </style>
 
       <div style="text-align: center;">
-        <h1 class="text-center" style="text-align: center;">إدارة الأصناف</h1>
+        <h1 class="text-center" style="text-align: center;">إدارة الطلبات</h1>
         
         <!-- <form action="members.php?do=search" method="POST" class="search-form">
           <input type="text" name="query" placeholder=" أبحث في المستخدمين" class="search-input">
@@ -69,13 +88,14 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
           <table class="main-table text-center table table-borderd">
             <tr>
               <td>#ID</td>
-              <td>الأسم</td>
-              <td>الوصف</td>
-              <td>النوع</td>
+              <td>اسم العينية</td>
+              <td>المعطي</td>
+              <td>جوال المعطي</td>
+              <td>الأخذ</td>
+              <td>رقم الأخذ</td>
+              <td>تفاصيل الطلب</td>
               <td>التاريخ</td>
               <td>الحالة</td>
-
-              <td>الصورة</td>
 
               <td>Control</td>
             </tr>
@@ -84,26 +104,35 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
 
             foreach ($rows as $row) {
               echo "<tr>";
-              echo "<td>" . $row['items_id'] . "</td>";
+              echo "<td>" . $row['notif_id'] . "</td>";
               echo "<td>" . $row['items_name'] . "</td>";
-              echo "<td>" . $row['items_desc'] . "</td>";
-              echo "<td>" . $row['items_cat'] . "</td>";
-              echo "<td>" . $row['items_date'] . "</td>";
+              echo "<td>" . $row['owner_name'] . "</td>";
+              echo "<td>" . $row['owner_phone'] . "</td>";
+              echo "<td>" . $row['orderby_name'] . "</td>";
+              echo "<td>" . $row['orderby_phone'] . "</td>";
+              echo "<td>" . $row['notif_detials'] . "</td>";
+
+              echo "<td>" . $row['notif_date'] . "</td>";
+
               echo "<td>";
 
-              if ($row['items_status'] == 1) {
-                echo "لم يتم التبرع";
+              if ($row['notif_status'] == 1) {
+                echo " في انتظار الرد";
 
-              } else {
-                echo "تم التبرع";
+              }
+              if ($row['notif_status'] == 2) {
+                echo "تم الموافقة";
+
+              }
+              if ($row['notif_status'] == 3) {
+                echo "لم يتم الموافقة";
 
               }
 
               echo "</td>";
-              echo "<td>" . $row['items_image'] . "</td>";
 
               echo "<td>
-                     <a href='items.php?do=Delete&userid=" . $row['items_id'] . "' class='btn btn-danger confirm'><i class='fa fa-trash-o' ></i>حذف </a>";
+                     <a href='orderr.php?do=Delete&userid=" . $row['notif_id'] . "' class='btn btn-danger confirm'><i class='fa fa-trash-o' ></i>حذف </a>";
 
 
 
@@ -123,7 +152,7 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
 
     <?php } else {
 
-      echo 'لايوجد اي نتائج لعرضها';
+      echo '              <h1 style="text-align: center;">لايوجد اي نتائج لعرضها</h1>      ';
 
     }
 
@@ -253,7 +282,7 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
   }  // end update page
   elseif ($do == 'Delete') { //  start delelt member page
 
-    echo '<h1 class="text-center"> حذف مستخدم</h1>';
+    echo '<h1 class="text-center"> حذف طلب</h1>';
     echo "<div class='container'>";
 
 
@@ -269,7 +298,7 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
 
 
 
-      $stmt = $con->prepare("DELETE FROM users WHERE user_id  = :zuser");
+      $stmt = $con->prepare("DELETE FROM orderr WHERE notif_id   = :zuser");
 
       $stmt->bindParam(":zuser", $userid);
 
@@ -278,7 +307,7 @@ INNER JOIN categories ON items.items_cat = categories.categories_id");
 
       echo '<div class="alert alert-success">' . ' تم حذف  : '. $stmt->rowCount()  . '</div>';
 
-      header("refresh:1.5;url=members.php");
+      header("refresh:1.5;url=orderr.php");
 
       echo '</div>';
 

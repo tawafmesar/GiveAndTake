@@ -47,7 +47,7 @@
                 <i class="fa-solid  fa-arrow-right-to-bracket"></i>المستخدمين</a>
           </li>
           <li>
-              <a class="" style="font-weight:bold;" href="#" >
+              <a class="" style="font-weight:bold;" href="orderr.php" >
                 <i class="fa-solid fa-notifications"></i>  الطلبات</a>
           </li>
 

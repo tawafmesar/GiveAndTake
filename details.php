@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['exus'])) {
         $userid = $_SESSION['userid'];
         $itemid =  $_POST['itemid'];
+        $itemowner =  $_POST['itemowner'];
         
         $details = filter_input(INPUT_POST, 'details', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -17,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!empty($details)) {
             $data = array(
                 "notif_item" => $itemid,
+                "item_owner" => $itemowner,
                 "notif_status" => '1',
                 "notif_orderby" => $userid,
                 "notif_detials" => $details
@@ -59,7 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $stmt = $con->prepare("SELECT
                            items.* ,
                            categories.categories_name AS Category ,
-                            users.user_name
+                            users.user_name,
+                            users.user_id
+
 
                            FROM items
 
@@ -112,6 +116,7 @@ if ($count > 0) {
          </ul>
          <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="sign-up-form signup" style="    text-align: center;">
                     <input type="hidden" name="itemid" value="<?php echo $item['items_id']; ?>">
+                    <input type="hidden" name="itemowner" value="<?php echo $item['user_id']; ?>">
  
          <label for="" style="  font-size: 1.5rem;  color:#fff;  margin: 30px;"> يجب عليك ادخال تفاصيل الطلب</label><br>
 

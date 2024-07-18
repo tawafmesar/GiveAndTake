@@ -70,7 +70,8 @@ if (isset($_SESSION['username'])) {
           $_SESSION['userid'] = $get['user_id']; // register user id in session
           $_SESSION['user'] = $get['user_name']; // register user id in session
           $_SESSION['useremail'] = $get['user_email']; // register user id in session
-          
+          $_SESSION['type'] = $get['user_type']; // register user id in session
+
           header("refresh:1.5;url=index.php");
 
 
@@ -217,8 +218,8 @@ if (isset($_SESSION['username'])) {
                                                         style="padding-left:12px; font-weight:300; cursor: pointer; letter-spacing:1px; border: solid 0px #fff;"
                                                 required name="category" >
                           <option value="">حدد نوع المستخدم</option>
-                          <option value="1">متبرع</option>
-                          <option value="2">متلقي</option>
+                          <option value="1">معطي</option>
+                          <option value="2">أخذ</option>
                       </select>
 											<div class="form-group mt-3">
 												<input type="text" name="username" class="form-style" placeholder="اسم المستخدم" id="logname" autocomplete="off">

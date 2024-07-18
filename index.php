@@ -42,7 +42,7 @@ session_start();
         <div class="box">
           <img src="imgs/give.png"style="background:#e3ebef;" alt="" />
           <div class="content">
-            <h3><i class="fa-solid fa-hand-holding-medical"></i> متبرع </h3>
+            <h3><i class="fa-solid fa-hand-holding-medical"></i> معطي </h3>
             <p>يمكنك  تقديم تبرعك الان بعد انشاء حساب</p>
           </div>
         </div>
@@ -53,7 +53,7 @@ session_start();
          <div class="box">
           <img src="./imgs/take.png" style="background:#e3ebef;" alt="" />
           <div class="content">
-            <h3><i class="fa-solid fa-handshake-angle"></i>  محتاج</h3>
+            <h3><i class="fa-solid fa-handshake-angle"></i>  أخذ</h3>
             <p> يمكنك تقديم طلب على شيء من المعروضات</p>
           </div>
         </div>

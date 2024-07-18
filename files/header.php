@@ -44,7 +44,7 @@
           </li>
 
           <li>
-            <a ctyle="font-weight:bold;"  style="font-weight:bold;" href="#" >
+            <a ctyle="font-weight:bold;"  style="font-weight:bold;" href="contact.php" >
               <i class="fa-solid fa-phone"></i>
               تواصل معنا  
             </a>
